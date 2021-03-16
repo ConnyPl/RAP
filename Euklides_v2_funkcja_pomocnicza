@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <math.h>
+
+int main()
+{
+    
+    int u, v, x;
+    printf("Podaj u i v odzielone spacja: ");
+    scanf("%d %d", &u, &v);
+    
+    x = euklides(u, v); //wywoluje funkcje pomocnicza
+    printf("Rozwiązanie: %d", x);
+
+    return 0;
+}
+
+int euklides(int u, int v) //deklaruje funkcje pomocnicza z 2 argumentami wejsciowymi
+{
+    if (u == v) 
+        return u; 
+    if (u == 0) 
+        return v; 
+    if (v == 0)
+        return u; 
+    if (u % 2 == 0) { 
+        if (v % 2 == 1)
+            return euklides(u/2, v);
+        else
+            return 2 * euklides(u/2, v/2); 
+    } else { 
+        if (v % 2 == 0)
+            return euklides(u, v/2); 
+        if (u > v)
+            return euklides((u-v)/2, v);
+        else 
+            return euklides((v - u)/2, u); 
+    }
+}
