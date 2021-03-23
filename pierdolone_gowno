@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <math.h>
+
+float part(float a, float b, float e);
+float epart(float a, float b, float e);
+
+int main()
+{
+    float a,b,e;
+    a=1/4*M_PI;
+    b=5/4*M_PI;
+    e=1;
+    
+    float x;
+    
+    x = part (a,b,e);
+    return 0;
+}
+
+float part (float a, float b, float e) {
+    float c = (a+b/2);
+    float x = sinf(a);
+    float y = sinf(c);
+    float z = sinf(b);
+    if ((x<0&&y>0)||(x>0&&y<0)){ // <-TU ZA CHUJA NIE DZIALA NIE WAZNE CO SIE DA
+        epart (a,c,e);
+    } else if (y*z<0) {
+        epart (c,b,e);
+    } else if (x==0) {
+        printf("Miejsce zerowe: %f", a);
+        return 1;
+    } else if (z==0) {
+        printf("Miejsce zerowe: %f", b);
+        return 2;
+    } else {
+        printf("Miejsce zerowe: %f", c);
+        return 3;
+    }
+        
+}
+
+float epart (float a, float b, float e) {
+    float c=a-b;
+    if (fabs(c)<e) {
+        printf("Miejsce zerowe znajduje się między punktami %f oraz %f",a,b);
+        return 0;
+    } else {
+        part(a,b,e);
+    }
+}
