@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <math.h>
+
+int i=0;
+int k=0;
+float f(float x) {
+    float y;
+    y = sinf(x*(M_PI/180));
+    return y;
+}
+
+void compare (float a1, float b1, float e) {
+    
+    float c1, a2, b2, c2, u=e/100;
+    
+    c1 = (a1+b1)/2;
+    
+    a2 = f(a1);
+    b2 = f(b1);
+    c2 = f(c1);
+
+    if (a2==0) {
+        printf("\n Miejsce zerowe: %f",a1);
+        a1 = a1+u;
+        a2 = f(a1);
+        k++;
+    } 
+    if (b2==0) {
+        printf("\n Miejsce zerowe: %f",b1);
+        b1 = b1-u;
+        b2 = f(b1);
+        k++;
+    } 
+    if (b1-a1<e) {
+        if (a2==0 || b2==0){
+            goto end;
+        } else {
+            if (a2*b2<0) {
+                printf("\n Miejsce zerowe znajduje sie w przedziale: (%f,%f)",a1,b1);
+                k++;
+            }
+        }
+        goto end;
+    }
+    if (c2==0) {
+        printf("\n Miejsce zerowe: %f",c1);
+        k++;
+        if (a2*b2<0) {
+            c1 = c1-u;
+            c2 = f(c1);
+            compare (a1, c1, e);
+            c1 = c1+(2*u);
+            c2 = f(c1);
+            compare (c1, b1, e);
+        }
+    } else if (a2*b2==0) {
+        compare (a1, b1, e);
+    } else if (a2*b2<0) {
+        if (a2*c2<0) {
+            compare (a1, c1, e);
+        }
+        if (b2*c2<0) {
+            compare (c1, b1, e);
+        }
+    }
+    end:
+    i++;
+}
+
+
+int main () {
+    
+    float a=-180, b=180, e=00000.1, r;
+    r = (b-a)/20*e;
+    for (int h=a; h<=b; h=h+r) {
+        compare (h, (h+r)-(e/100), e);
+    }
+
+    printf("\n Miejsc zerowych: %d", k);
+    printf("\n I: %d", i);
+    return 1;
+}
